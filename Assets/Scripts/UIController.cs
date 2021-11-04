@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 
 public class UIController : MonoBehaviour
 {
-    const string URL = "https://picsum.photos/200";
 
     public CardPanelController panelController;
     public Dropdown typeOfViewing;
@@ -19,14 +18,14 @@ public class UIController : MonoBehaviour
         {
             case 0:
                 canelButton.interactable = true;
-                panelController.FlipAllCards();
+                panelController.AllAtOnceFlip();
                 canelButton.interactable = false;
                 break;
             case 1:
-
+                panelController.OneByOneFlip();
                 break;
             case 2:
-
+                panelController.WhenImageReadyFlip();
                 break;
         }
     }
