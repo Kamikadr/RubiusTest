@@ -561,6 +561,63 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 6783907048455565337, guid: c1c491bbdb2e88a4ba4c517f368ea05b, type: 3}
   m_PrefabInstance: {fileID: 101253968}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &395770159 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8237034650122104146, guid: c1c491bbdb2e88a4ba4c517f368ea05b, type: 3}
+  m_PrefabInstance: {fileID: 101253968}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e4d223d975a97c4dac9b4b3738d171d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &403375653
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 403375655}
+  - component: {fileID: 403375654}
+  m_Layer: 0
+  m_Name: Controller
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &403375654
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 403375653}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea8fdf500857caa46a9813a64e365d47, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  panelController: {fileID: 1780896226}
+  typeOfViewing: {fileID: 2016070579}
+  canelButton: {fileID: 2051071756}
+--- !u!4 &403375655
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 403375653}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 571.6715, y: 274.98355, z: -89.24177}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &445699934
 GameObject:
   m_ObjectHideFlags: 0
@@ -641,6 +698,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 6783907048455565337, guid: c1c491bbdb2e88a4ba4c517f368ea05b, type: 3}
   m_PrefabInstance: {fileID: 1957344515}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &536998561 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8237034650122104146, guid: c1c491bbdb2e88a4ba4c517f368ea05b, type: 3}
+  m_PrefabInstance: {fileID: 1957344515}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e4d223d975a97c4dac9b4b3738d171d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &638995574
 GameObject:
   m_ObjectHideFlags: 0
@@ -963,7 +1031,7 @@ GameObject:
   - component: {fileID: 1022386420}
   - component: {fileID: 1022386419}
   m_Layer: 5
-  m_Name: Button
+  m_Name: LoadButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1032,7 +1100,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1022386420}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 403375654}
+        m_TargetAssemblyTypeName: NewBehaviourScript, Assembly-CSharp
+        m_MethodName: OnLoadButtonClickListener
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1022386420
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1151,6 +1231,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 6783907048455565337, guid: c1c491bbdb2e88a4ba4c517f368ea05b, type: 3}
   m_PrefabInstance: {fileID: 6783907049285116462}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1369313848 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8237034650122104146, guid: c1c491bbdb2e88a4ba4c517f368ea05b, type: 3}
+  m_PrefabInstance: {fileID: 6783907049285116462}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e4d223d975a97c4dac9b4b3738d171d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1462158225
 GameObject:
   m_ObjectHideFlags: 0
@@ -1385,6 +1476,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 6783907048455565337, guid: c1c491bbdb2e88a4ba4c517f368ea05b, type: 3}
   m_PrefabInstance: {fileID: 683983550}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1701268202 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8237034650122104146, guid: c1c491bbdb2e88a4ba4c517f368ea05b, type: 3}
+  m_PrefabInstance: {fileID: 683983550}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e4d223d975a97c4dac9b4b3738d171d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1716531460
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1492,6 +1594,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1780896224}
   - component: {fileID: 1780896225}
+  - component: {fileID: 1780896226}
   m_Layer: 5
   m_Name: Card Panel
   m_TagString: Untagged
@@ -1549,6 +1652,24 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &1780896226
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1780896223}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 479ce25b524b736459d15a2a2cc913e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cards:
+  - {fileID: 1369313848}
+  - {fileID: 1701268202}
+  - {fileID: 1938864645}
+  - {fileID: 395770159}
+  - {fileID: 536998561}
 --- !u!1 &1872277984
 GameObject:
   m_ObjectHideFlags: 0
@@ -1712,6 +1833,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 6783907048455565337, guid: c1c491bbdb2e88a4ba4c517f368ea05b, type: 3}
   m_PrefabInstance: {fileID: 1716531460}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1938864645 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8237034650122104146, guid: c1c491bbdb2e88a4ba4c517f368ea05b, type: 3}
+  m_PrefabInstance: {fileID: 1716531460}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e4d223d975a97c4dac9b4b3738d171d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1957344515
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1909,7 +2041,7 @@ GameObject:
   - component: {fileID: 2016070580}
   - component: {fileID: 2016070579}
   m_Layer: 5
-  m_Name: Dropdown
+  m_Name: TypeOfViewingDropdown
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2047,7 +2179,7 @@ GameObject:
   - component: {fileID: 2051071757}
   - component: {fileID: 2051071756}
   m_Layer: 5
-  m_Name: Button
+  m_Name: CanelButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2112,11 +2244,23 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 2051071757}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 403375654}
+        m_TargetAssemblyTypeName: NewBehaviourScript, Assembly-CSharp
+        m_MethodName: OnCanelButtonCkickListener
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2051071757
 MonoBehaviour:
   m_ObjectHideFlags: 0
