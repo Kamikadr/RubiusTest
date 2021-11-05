@@ -17,7 +17,10 @@ public class CardPanelController : MonoBehaviour
             StartCoroutine(card.LoadImage());
         }
     }
-
+    private void FlipBackCards() 
+    {
+        foreach (Card card in cards) card.FlipBack();
+    }
     IEnumerator LoadAllCards()
     {
         LoadImages();
@@ -86,15 +89,17 @@ public class CardPanelController : MonoBehaviour
 
     public void AllAtOnceFlip()
     {
-
+        FlipBackCards();
         StartCoroutine(AllAtOnceFlipEnum());
     }
     public void OneByOneFlip()
     {
+        FlipBackCards();
         StartCoroutine(OneByOneFlipEnum());
     }
     public void WhenImageReadyFlip()
     {
+        FlipBackCards();
         StartCoroutine(WhenImageReadyFlipEnum());
     }
     public void Stop() 
