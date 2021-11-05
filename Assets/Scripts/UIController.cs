@@ -2,8 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.Networking;
-using System.Threading.Tasks;
 
 public class UIController : MonoBehaviour
 {
@@ -11,7 +9,14 @@ public class UIController : MonoBehaviour
     public CardPanelController panelController;
     public Dropdown typeOfViewing;
     public Button canelButton;
-    
+
+
+    private void Start()
+    {
+        panelController.onLoadIsDoneEvent += OnLoadIsDone;
+    }
+
+
     public void OnLoadButtonClickListener() 
     {
         switch (typeOfViewing.value) 
@@ -19,12 +24,13 @@ public class UIController : MonoBehaviour
             case 0:
                 canelButton.interactable = true;
                 panelController.AllAtOnceFlip();
-                canelButton.interactable = false;
                 break;
             case 1:
+                canelButton.interactable = true;
                 panelController.OneByOneFlip();
                 break;
             case 2:
+                canelButton.interactable = true;
                 panelController.WhenImageReadyFlip();
                 break;
         }
@@ -32,8 +38,14 @@ public class UIController : MonoBehaviour
 
     public void OnCanelButtonClickListener() 
     {
-        panelController.StopAllCoroutines();
+        panelController.Stop();
     }
 
-   
+    private void OnLoadIsDone() 
+    {
+        canelButton.interactable = false;
+    }
+
+
+
 }

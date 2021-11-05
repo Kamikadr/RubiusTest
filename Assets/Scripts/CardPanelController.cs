@@ -1,17 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class CardPanelController : MonoBehaviour
 {
-    public List<CardLoader> cards;
+    public List<Card> cards;
     public float time;
 
-
-
+    public event Action onLoadIsDoneEvent;
+   
     private void LoadImages()
     {
-        foreach (CardLoader card in cards)
+        foreach (Card card in cards)
         {
             StartCoroutine(card.LoadImage());
         }
@@ -25,7 +26,7 @@ public class CardPanelController : MonoBehaviour
         while (!isReady)
         {
             isReady = true;
-            foreach (CardLoader card in cards)
+            foreach (Card card in cards)
             {
                 if (!card.isReady) isReady = false;
             }
@@ -38,10 +39,12 @@ public class CardPanelController : MonoBehaviour
         yield return StartCoroutine(LoadAllCards());
 
 
-        foreach (CardLoader card in cards)
+        foreach (Card card in cards)
         {
             card.FlipCard();
         }
+
+        onLoadIsDoneEvent?.Invoke();
     }
 
 
@@ -49,11 +52,13 @@ public class CardPanelController : MonoBehaviour
     {
         yield return StartCoroutine(LoadAllCards());
 
-        foreach (CardLoader card in cards)
+        foreach (Card card in cards)
         {
             card.FlipCard();
             yield return new WaitForSeconds(time);
         }
+
+        onLoadIsDoneEvent?.Invoke();
     }
 
     IEnumerator WhenImageReadyFlipEnum() 
@@ -64,7 +69,7 @@ public class CardPanelController : MonoBehaviour
         while (!isReady)
         {
             isReady = true;
-            foreach (CardLoader card in cards)
+            foreach (Card card in cards)
             {
                 if (card.isReady) 
                 { 
@@ -74,11 +79,14 @@ public class CardPanelController : MonoBehaviour
             }
             if (!isReady) yield return null;
         }
+
+        onLoadIsDoneEvent?.Invoke();
     }
    
 
     public void AllAtOnceFlip()
     {
+
         StartCoroutine(AllAtOnceFlipEnum());
     }
     public void OneByOneFlip()
@@ -88,5 +96,12 @@ public class CardPanelController : MonoBehaviour
     public void WhenImageReadyFlip()
     {
         StartCoroutine(WhenImageReadyFlipEnum());
+    }
+    public void Stop() 
+    {
+        foreach (Card card in cards) card.StopAllCoroutines();
+        StopAllCoroutines();
+
+        onLoadIsDoneEvent?.Invoke();
     }
 }

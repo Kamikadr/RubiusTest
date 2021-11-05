@@ -2251,8 +2251,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 403375654}
-        m_TargetAssemblyTypeName: NewBehaviourScript, Assembly-CSharp
-        m_MethodName: OnCanelButtonCkickListener
+        m_TargetAssemblyTypeName: UIController, Assembly-CSharp
+        m_MethodName: OnCanelButtonClickListener
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

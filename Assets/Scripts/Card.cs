@@ -5,13 +5,14 @@ using UnityEngine.Networking;
 using UnityEngine.UI;
 
 
-public class CardLoader : MonoBehaviour
+public class Card : MonoBehaviour
 {
     const string URL = "https://picsum.photos/200";
     public bool isReady;
 
     public RawImage cardImage;
     public GameObject cardFront;
+    public Image cardBack;
 
 
     public IEnumerator LoadImage() 
