@@ -68,18 +68,34 @@ public class CardPanelController : MonoBehaviour
     {
         LoadImages();
 
+        var a = new List<bool>();
+        for (int i = 0; i < cards.Count; i++) a.Add(false);
+        
+
         bool isReady = false;
         while (!isReady)
         {
             isReady = true;
-            foreach (Card card in cards)
+            for (int i = 0; i < cards.Count; i++) 
             {
-                if (card.isReady) 
-                { 
-                    card.FlipCard();
+                if (cards[i].isReady)
+                {
+                    if (a[i] == false)
+                    {
+                        cards[i].FlipCard();
+                        a[i] = true;
+                    }
                 }
                 else isReady = false;
             }
+            /*foreach (Card card in cards)
+            {
+                if (card.isReady) 
+                { 
+                    if(a.Find(card))
+                    card.FlipCard();
+                }
+                else isReady = false;*/
             if (!isReady) yield return null;
         }
 

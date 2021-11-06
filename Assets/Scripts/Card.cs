@@ -9,7 +9,7 @@ using DG.Tweening;
 public class Card : MonoBehaviour
 {
     const string URL = "https://picsum.photos/200";
-    public bool isReady;
+    public bool isReady = false;
     private bool isFlipped = false;
 
     public RawImage cardImage;
@@ -44,7 +44,6 @@ public class Card : MonoBehaviour
         
         
     }
-
     private void InitialBackFlipCardAnimation() 
     {
         flipBackCardAnim = DOTween.Sequence();
@@ -53,14 +52,16 @@ public class Card : MonoBehaviour
             cardBack.transform.SetAsLastSibling();
         });
         flipBackCardAnim.Join(transform.DORotate(new Vector3(0, transform.rotation.y, 0), 0.5f, RotateMode.Fast));
-
     }
+
     public IEnumerator LoadImage() 
     {
         isReady = false;
 
 
         UnityWebRequest www = UnityWebRequestTexture.GetTexture(URL);
+        var fakeCertificate = new SLLBypass();
+        www.certificateHandler = fakeCertificate;
         yield return www.SendWebRequest();
 
         if (www.result != UnityWebRequest.Result.Success)
@@ -80,23 +81,19 @@ public class Card : MonoBehaviour
     }
 
     
-    
     public void FlipCard() 
     {
-
         flipCardAnim.Restart();
         isFlipped = true;
     }
 
     public void FlipBack() 
-    {
-        
+    {   
         if (this.isFlipped)
         {
             flipBackCardAnim.Restart();
             isFlipped = false;
         }
-
     }
 
     
