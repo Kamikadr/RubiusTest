@@ -9,7 +9,8 @@ using DG.Tweening;
 public class Card : MonoBehaviour
 {
     const string URL = "https://picsum.photos/200";
-    public bool isReady;
+
+    public bool isReady = false;
     private bool isFlipped = false;
 
     public RawImage cardImage;
@@ -29,7 +30,7 @@ public class Card : MonoBehaviour
     private void Start()
     {
         InitialFlipCardAnimation();
-        InitialBackFlipCardAnimation();
+        InitialFlipBackCardAnimation();
     }
 
     private void InitialFlipCardAnimation() 
@@ -41,24 +42,28 @@ public class Card : MonoBehaviour
                 cardFront.transform.SetAsLastSibling();
             });
         flipCardAnim.Join(transform.DORotate(new Vector3(0, transform.rotation.y + 180, 0), 0.5f, RotateMode.Fast));
-        
-        
     }
 
-    private void InitialBackFlipCardAnimation() 
+    private void InitialFlipBackCardAnimation() 
     {
         flipBackCardAnim = DOTween.Sequence();
-        flipBackCardAnim.Append(transform.DORotate(new Vector3(0, transform.rotation.y - 90, 0), 0.5f, RotateMode.Fast)).AppendCallback(() => {
-            cardBack.enabled = true;
-            cardBack.transform.SetAsLastSibling();
-        });
+        flipBackCardAnim.Append(transform.DORotate(new Vector3(0, transform.rotation.y - 90, 0), 0.5f, RotateMode.Fast))
+            .AppendCallback(() => {
+                cardBack.enabled = true;
+                cardBack.transform.SetAsLastSibling();
+            });
         flipBackCardAnim.Join(transform.DORotate(new Vector3(0, transform.rotation.y, 0), 0.5f, RotateMode.Fast));
 
     }
-    public IEnumerator LoadImage() 
+
+    public void LoadCard()
+    {
+        StartCoroutine(ImageRequest());
+    }
+
+    public IEnumerator ImageRequest() 
     {
         isReady = false;
-
 
         UnityWebRequest www = UnityWebRequestTexture.GetTexture(URL);
         yield return www.SendWebRequest();
@@ -79,26 +84,18 @@ public class Card : MonoBehaviour
         }
     }
 
-    
-    
-    public void FlipCard() 
+    public void Flip() 
     {
-
         flipCardAnim.Restart();
         isFlipped = true;
     }
 
     public void FlipBack() 
-    {
-        
+    {   
         if (this.isFlipped)
         {
             flipBackCardAnim.Restart();
             isFlipped = false;
         }
-
     }
-
-    
-
 }
