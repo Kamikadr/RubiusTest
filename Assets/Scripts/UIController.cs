@@ -9,7 +9,6 @@ public class UIController : MonoBehaviour
     public CardPanelController panelController;
     public Dropdown typeOfViewing;
     public Button canelButton;
-    public Button loadButton;
 
 
     private void Start()
@@ -20,8 +19,6 @@ public class UIController : MonoBehaviour
 
     public void OnLoadButtonClickListener() 
     {
-        loadButton.interactable = false;
-        typeOfViewing.interactable = false;
         switch (typeOfViewing.value) 
         {
             case 0:
@@ -47,8 +44,6 @@ public class UIController : MonoBehaviour
     private void OnLoadIsDone() 
     {
         canelButton.interactable = false;
-        loadButton.interactable = true;
-        typeOfViewing.interactable = true;
     }
 
 
