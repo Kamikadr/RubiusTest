@@ -11,7 +11,7 @@ public class Card : MonoBehaviour
     const string URL = "https://picsum.photos/200";
 
     public bool isReady = false;
-    private bool isFlipped = false;
+    public bool isFlipped = false;
 
     public RawImage cardImage;
     public GameObject cardFront;
@@ -42,6 +42,7 @@ public class Card : MonoBehaviour
                 cardFront.transform.SetAsLastSibling();
             });
         flipCardAnim.Join(transform.DORotate(new Vector3(0, transform.rotation.y + 180, 0), 0.5f, RotateMode.Fast));
+        flipCardAnim.OnComplete(() => { isFlipped = true; });
     }
 
     private void InitialFlipBackCardAnimation() 
@@ -87,7 +88,7 @@ public class Card : MonoBehaviour
     public void Flip() 
     {
         flipCardAnim.Restart();
-        isFlipped = true;
+        
     }
 
     public void FlipBack() 

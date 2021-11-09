@@ -10,11 +10,19 @@ public class UIController : MonoBehaviour
     public Dropdown typeOfViewing;
     public Button canelButton;
     public Button loadButton;
+    private delegate void d();
+    d[] del;
 
 
     private void Start()
     {
         panelController.onLoadIsDoneEvent += OnLoadIsDone;
+        del = new d[3];
+        del[0] += panelController.AllAtOnceFlip;
+        del[1] += panelController.OneByOneFlip;
+        del[2] += panelController.WhenImageReadyFlip;
+
+
     }
 
 
@@ -22,21 +30,8 @@ public class UIController : MonoBehaviour
     {
         loadButton.interactable = false;
         typeOfViewing.interactable = false;
-        switch (typeOfViewing.value) 
-        {
-            case 0:
-                canelButton.interactable = true;
-                panelController.AllAtOnceFlip();
-                break;
-            case 1:
-                canelButton.interactable = true;
-                panelController.OneByOneFlip();
-                break;
-            case 2:
-                canelButton.interactable = true;
-                panelController.WhenImageReadyFlip();
-                break;
-        }
+        canelButton.interactable = true;
+        del[typeOfViewing.value]();
     }
 
     public void OnCanelButtonClickListener() 

@@ -52,7 +52,8 @@ public class CardPanelController : MonoBehaviour
         foreach (Card card in cards)
         {
             card.Flip();
-            yield return new WaitForSeconds(0.5f);
+            while (!card.isFlipped) yield return null; 
+            
         }
 
         onLoadIsDoneEvent?.Invoke();
