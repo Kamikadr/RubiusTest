@@ -10,17 +10,17 @@ public class UIController : MonoBehaviour
     public Dropdown typeOfViewing;
     public Button canelButton;
     public Button loadButton;
-    private delegate void d();
-    d[] del;
+    private delegate void DelegateArray();
+    DelegateArray[] delegateArray;
 
 
     private void Start()
     {
         panelController.onLoadIsDoneEvent += OnLoadIsDone;
-        del = new d[3];
-        del[0] += panelController.AllAtOnceFlip;
-        del[1] += panelController.OneByOneFlip;
-        del[2] += panelController.WhenImageReadyFlip;
+        delegateArray = new DelegateArray[3];
+        delegateArray[0] += panelController.AllAtOnceFlip;
+        delegateArray[1] += panelController.OneByOneFlip;
+        delegateArray[2] += panelController.WhenImageReadyFlip;
 
 
     }
@@ -31,7 +31,7 @@ public class UIController : MonoBehaviour
         loadButton.interactable = false;
         typeOfViewing.interactable = false;
         canelButton.interactable = true;
-        del[typeOfViewing.value]();
+        delegateArray[typeOfViewing.value]();
     }
 
     public void OnCanelButtonClickListener() 
