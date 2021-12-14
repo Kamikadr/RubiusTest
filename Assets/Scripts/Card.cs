@@ -10,6 +10,7 @@ public class Card : MonoBehaviour
 {
 
     public event Action<Card> cardIsReady;
+    public event Action cardIsRefreshed;
 
     
     public bool isFlipped { get; private set;}
@@ -32,6 +33,8 @@ public class Card : MonoBehaviour
         DOTween.Init();
         DOTween.defaultAutoPlay = AutoPlay.None;
         DOTween.defaultAutoKill = false;
+
+        isFlipped = false;
     }
     private void Start()
     {
@@ -60,7 +63,10 @@ public class Card : MonoBehaviour
                 cardBack.transform.SetAsLastSibling();
             });
         flipBackCardAnim.Join(transform.DORotate(new Vector3(0, transform.rotation.y, 0), 0.5f, RotateMode.Fast));
-
+        flipBackCardAnim.OnComplete(() => { 
+            isFlipped = false;
+            cardIsRefreshed?.Invoke();
+        });
     }
 
     public void LoadCard()
@@ -89,10 +95,10 @@ public class Card : MonoBehaviour
 
     public void FlipBack() 
     {
-        if (isFlipped) 
+        if (isFlipped)
         {
             flipBackCardAnim.Restart();
-            isFlipped = false;
         }
+        else cardIsRefreshed?.Invoke();
     }
 }

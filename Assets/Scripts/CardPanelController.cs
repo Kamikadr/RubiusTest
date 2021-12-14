@@ -8,19 +8,33 @@ public class CardPanelController : MonoBehaviour
     
     private Card[] cards;
     public event Action onLoadIsDoneEvent;
+
     private int readyCardCounter;
-    private bool checkOrderOfReadiness = false;
-    private List<Card> orderOfReadinessCard;
+    private bool autoFlipFlag = false;
+
+    private int refreshedCardCounter;
+    private bool allCardRefreshed = true;
+
     private void Start()
     {
         cards = gameObject.GetComponentsInChildren<Card>();
-        orderOfReadinessCard = new List<Card>();
-        foreach (Card card in cards) card.cardIsReady += PutIntoReadyState;
+        foreach (Card card in cards)
+        {
+            card.cardIsReady += PutIntoReadyState;
+            card.cardIsRefreshed += CheckAllRefreshedCard;
+        }
+
+    }
+
+    private void CheckAllRefreshedCard()
+    {
+        refreshedCardCounter++;
+        if (refreshedCardCounter == cards.Length) allCardRefreshed = true;
     }
 
     private void PutIntoReadyState(Card card)
     {
-        if (checkOrderOfReadiness) orderOfReadinessCard.Add(card);
+        if (autoFlipFlag) card.Flip();
         readyCardCounter++;
     }
     
@@ -41,10 +55,13 @@ public class CardPanelController : MonoBehaviour
         RefreshSettings();
         StartCoroutine(WhenImageReadyFlipEnum());
     }
+   
     private void RefreshSettings()
     {
-        checkOrderOfReadiness = false;
+        autoFlipFlag = false;
+        allCardRefreshed = false;
         readyCardCounter = 0;
+        refreshedCardCounter = 0;
         FlipBackCards();
     }
 
@@ -77,22 +94,16 @@ public class CardPanelController : MonoBehaviour
     IEnumerator WhenImageReadyFlipEnum()
     {
 
-        checkOrderOfReadiness = true;
-        orderOfReadinessCard.Clear();
+        autoFlipFlag = true;  
 
         yield return StartCoroutine(LoadAllCards());
-
-        foreach (Card card in orderOfReadinessCard)
-        {
-            card.Flip();
-            while (!card.isFlipped) yield return null;
-        }
 
         onLoadIsDoneEvent?.Invoke();
     }
 
     IEnumerator LoadAllCards()
     {
+        while (!allCardRefreshed) yield return null;
         LoadImages();
         while (readyCardCounter != cards.Length) yield return null;
     }
