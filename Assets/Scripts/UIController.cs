@@ -6,21 +6,21 @@ using UnityEngine.UI;
 public class UIController : MonoBehaviour
 {
 
-    public CardPanelController panelController;
-    public Dropdown typeOfViewing;
-    public Button canelButton;
-    public Button loadButton;
+    [SerializeField] private CardPanelController panelController;
+    [SerializeField] private Dropdown typeOfViewing;
+    [SerializeField] private Button canelButton;
+    [SerializeField] private Button loadButton;
     private delegate void DelegateArray();
-    DelegateArray[] delegateArray;
+    private DelegateArray[] typeOfLoadingArray;
 
 
     private void Start()
     {
         panelController.onLoadIsDoneEvent += OnLoadIsDone;
-        delegateArray = new DelegateArray[3];
-        delegateArray[0] += panelController.AllAtOnceFlip;
-        delegateArray[1] += panelController.OneByOneFlip;
-        delegateArray[2] += panelController.WhenImageReadyFlip;
+        typeOfLoadingArray = new DelegateArray[3];
+        typeOfLoadingArray[0] += panelController.AllAtOnceFlip;
+        typeOfLoadingArray[1] += panelController.OneByOneFlip;
+        typeOfLoadingArray[2] += panelController.WhenImageReadyFlip;
 
 
     }
@@ -31,7 +31,7 @@ public class UIController : MonoBehaviour
         loadButton.interactable = false;
         typeOfViewing.interactable = false;
         canelButton.interactable = true;
-        delegateArray[typeOfViewing.value]();
+        typeOfLoadingArray[typeOfViewing.value]();
     }
 
     public void OnCanelButtonClickListener() 

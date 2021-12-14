@@ -4,25 +4,31 @@ using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
 using DG.Tweening;
-
+using System;
 
 public class Card : MonoBehaviour
 {
-    const string URL = "https://picsum.photos/200";
 
-    public bool isReady = false;
-    public bool isFlipped = false;
+    public event Action<Card> cardIsReady;
 
-    public RawImage cardImage;
-    public GameObject cardFront;
-    public Image cardBack;
+    
+    public bool isFlipped { get; private set;}
+
+    [SerializeField] private RawImage cardImage;
+    [SerializeField] private GameObject cardFront;
+    [SerializeField] private Image cardBack;
 
     private Sequence flipCardAnim;
     private Sequence flipBackCardAnim;
 
+    private IConnection connection;
+
 
     private void Awake()
     {
+        connection = GameObject.Find("Controller").GetComponent<IConnection>();
+        connection.textureReceived += PrepareCard;
+
         DOTween.Init();
         DOTween.defaultAutoPlay = AutoPlay.None;
         DOTween.defaultAutoKill = false;
@@ -59,41 +65,31 @@ public class Card : MonoBehaviour
 
     public void LoadCard()
     {
-        StartCoroutine(ImageRequest());
+        connection.GetImage(this);
     }
 
-    public IEnumerator ImageRequest() 
+    
+
+    private void PrepareCard(Texture texture , object card) 
     {
-        isReady = false;
-
-        UnityWebRequest www = UnityWebRequestTexture.GetTexture(URL);
-        yield return www.SendWebRequest();
-
-        if (www.result != UnityWebRequest.Result.Success)
-        {
-            Debug.Log(www.error);
-        }
-        else
-        {
-            if (flipBackCardAnim.IsPlaying())
-            {
-                yield return flipBackCardAnim.WaitForCompletion();
-            }
-
-            cardImage.texture = ((DownloadHandlerTexture)www.downloadHandler).texture;
-            isReady = true;
-        }
+        if((Card) card == this)
+            StartCoroutine(WaitBackAnimationAndChangeCard(texture));
     }
-
+    IEnumerator WaitBackAnimationAndChangeCard(Texture texture) 
+    {
+        if(flipBackCardAnim.IsPlaying())
+            yield return flipBackCardAnim.WaitForCompletion();
+        cardImage.texture = texture;
+        cardIsReady?.Invoke(this);
+    }
     public void Flip() 
     {
         flipCardAnim.Restart();
-        
     }
 
     public void FlipBack() 
-    {   
-        if (this.isFlipped)
+    {
+        if (isFlipped) 
         {
             flipBackCardAnim.Restart();
             isFlipped = false;

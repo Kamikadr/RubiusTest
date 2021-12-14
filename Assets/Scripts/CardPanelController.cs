@@ -6,29 +6,46 @@ using System;
 public class CardPanelController : MonoBehaviour
 {
     
-    Card[] cards;
+    private Card[] cards;
     public event Action onLoadIsDoneEvent;
+    private int readyCardCounter;
+    private bool checkOrderOfReadiness = false;
+    private List<Card> orderOfReadinessCard;
     private void Start()
     {
         cards = gameObject.GetComponentsInChildren<Card>();
+        orderOfReadinessCard = new List<Card>();
+        foreach (Card card in cards) card.cardIsReady += PutIntoReadyState;
     }
 
+    private void PutIntoReadyState(Card card)
+    {
+        if (checkOrderOfReadiness) orderOfReadinessCard.Add(card);
+        readyCardCounter++;
+    }
+    
     public void AllAtOnceFlip()
     {
-        FlipBackCards();
+        RefreshSettings();
         StartCoroutine(AllAtOnceFlipEnum());
     }
 
     public void OneByOneFlip()
     {
-        FlipBackCards();
+        RefreshSettings();
         StartCoroutine(OneByOneFlipEnum());
     }
 
     public void WhenImageReadyFlip()
     {
-        FlipBackCards();
+        RefreshSettings();
         StartCoroutine(WhenImageReadyFlipEnum());
+    }
+    private void RefreshSettings()
+    {
+        checkOrderOfReadiness = false;
+        readyCardCounter = 0;
+        FlipBackCards();
     }
 
     private void FlipBackCards()
@@ -53,7 +70,22 @@ public class CardPanelController : MonoBehaviour
         {
             card.Flip();
             while (!card.isFlipped) yield return null; 
-            
+        }
+
+        onLoadIsDoneEvent?.Invoke();
+    }
+    IEnumerator WhenImageReadyFlipEnum()
+    {
+
+        checkOrderOfReadiness = true;
+        orderOfReadinessCard.Clear();
+
+        yield return StartCoroutine(LoadAllCards());
+
+        foreach (Card card in orderOfReadinessCard)
+        {
+            card.Flip();
+            while (!card.isFlipped) yield return null;
         }
 
         onLoadIsDoneEvent?.Invoke();
@@ -62,60 +94,15 @@ public class CardPanelController : MonoBehaviour
     IEnumerator LoadAllCards()
     {
         LoadImages();
-
-        bool isReady = false;
-        while (!isReady)
-        {
-            isReady = true;
-            foreach (Card card in cards)
-            {
-                if (!card.isReady) isReady = false;
-            }
-            if (!isReady) yield return null;
-        }
+        while (readyCardCounter != cards.Length) yield return null;
     }
 
     
-    IEnumerator WhenImageReadyFlipEnum() 
-    {
-        LoadImages();
-
-        var cardStatusList = new List<bool>();
-        for (int i = 0; i < cards.Length; i++) cardStatusList.Add(false);
-
-        bool isAllCardReady = false;
-        while (!isAllCardReady)
-        {
-            isAllCardReady = CheckReadinessAndFlipReadyCard(ref cardStatusList);
-            if (!isAllCardReady) yield return null;
-        }
-
-        onLoadIsDoneEvent?.Invoke();
-    }
+    
     private void LoadImages()
     {
         foreach (Card card in cards) card.LoadCard();
     }
-
-    private bool CheckReadinessAndFlipReadyCard(ref List<bool> cardStatusList) 
-    {
-        bool isAllCardReady = true;
-        for (int i = 0; i < cardStatusList.Count; i++)
-        {
-            if (cards[i].isReady)
-            {
-                if (cardStatusList[i] == false)
-                {
-                    cards[i].Flip();
-                    cardStatusList[i] = true;
-                }
-            }
-            else isAllCardReady = false;
-        }
-        return isAllCardReady;
-    }
-   
-
     public void Stop() 
     {
         foreach (Card card in cards) card.StopAllCoroutines();
